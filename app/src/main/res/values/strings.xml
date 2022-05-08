@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Tiempo</string>
+    <string name="initial_setup">Initial Setup</string>
+    <string name="location">Location</string>
+    <string name="gps">GPS</string>
+    <string name="map">Map</string>
+    <string name="notification">Notification</string>
+    <string name="ok">OK</string>
+    <string name="weather_status">Weather status</string>
+    <string name="wind">Wind</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="cloud">Cloud</string>
+    <string name="ultra_violet">Ultra violet</string>
+    <string name="visibility">Visibility</string>
+    <string name="language">Language</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
+    <string name="temperature">Temperature</string>
+    <string name="fahrenheit">Fahrenheit</string>
+    <string name="kelvin">Kelvin</string>
+    <string name="celsius">Celsius</string>
+    <string name="wind_speed">Wind Speed</string>
+    <string name="meter_per_sec">Meter / Sec</string>
+    <string name="mile_per_sec">Mile / Sec</string>
+    <string name="disable">Disable</string>
+    <string name="enable">Enable</string>
+    <string name="more">more</string>
+    <string name="add_alarm">Add alarm</string>
+    <string name="from">From</string>
+    <string name="time">Time</string>
+    <string name="to">To</string>
+    <string name="alarm">Alarm</string>
+    <string name="save">Save</string>
+    <string name="weather_alarm">Weather alarm</string>
+    <string name="dismiss">Dismiss</string>
+</resources>

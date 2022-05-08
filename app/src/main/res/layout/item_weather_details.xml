@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
+    app:cardCornerRadius="26dp"
+    android:layout_marginBottom="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_brighter2">
+
+        <TextView
+            android:id="@+id/textViewPressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:drawablePadding="8dp"
+            app:drawableTopCompat="@drawable/ic_pressure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1003 hpa" />
+
+        <TextView
+            android:id="@+id/textViewHumidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:drawablePadding="8dp"
+            app:drawableTopCompat="@drawable/ic_humidity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="93 %" />
+
+        <TextView
+            android:id="@+id/textViewWind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:drawablePadding="8dp"
+            app:drawableTopCompat="@drawable/ic_wind"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1.03 m/s" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/wind"
+            android:textColor="@color/text_gray"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewWind"
+            app:layout_constraintStart_toStartOf="@+id/textViewWind"
+            app:layout_constraintTop_toBottomOf="@+id/textViewWind" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/humidity"
+            android:textColor="@color/text_gray"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewHumidity"
+            app:layout_constraintStart_toStartOf="@+id/textViewHumidity"
+            app:layout_constraintTop_toBottomOf="@+id/textViewHumidity" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/pressure"
+            android:textColor="@color/text_gray"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewPressure"
+            app:layout_constraintStart_toStartOf="@+id/textViewPressure"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPressure" />
+
+        <TextView
+            android:id="@+id/textViewCloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="8dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:drawableTopCompat="@drawable/ic_cloud"
+            app:layout_constraintEnd_toEndOf="@+id/textViewPressure"
+            app:layout_constraintStart_toStartOf="@+id/textViewPressure"
+            app:layout_constraintTop_toBottomOf="@id/textView2"
+            tools:text="75 %" />
+
+        <TextView
+            android:id="@+id/textViewUltra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:drawablePadding="8dp"
+            app:drawableTopCompat="@drawable/ic_ultra"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:text="0.0" />
+
+        <TextView
+            android:id="@+id/textViewVisibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="8dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:drawableTopCompat="@drawable/ic_visibility"
+            app:layout_constraintEnd_toEndOf="@+id/textViewWind"
+            app:layout_constraintStart_toStartOf="@+id/textViewWind"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            tools:text="10000m" />
+
+        <TextView
+            android:id="@+id/textView88"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/visibility"
+            android:textColor="@color/text_gray"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textViewVisibility"
+            app:layout_constraintStart_toStartOf="@+id/textViewVisibility"
+            app:layout_constraintTop_toBottomOf="@+id/textViewVisibility"/>
+
+        <TextView
+            android:id="@+id/textView77"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/ultra_violet"
+            android:textColor="@color/text_gray"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textViewUltra"
+            app:layout_constraintStart_toStartOf="@+id/textViewUltra"
+            app:layout_constraintTop_toBottomOf="@+id/textViewUltra" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/cloud"
+            android:textColor="@color/text_gray"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textViewCloud"
+            app:layout_constraintStart_toStartOf="@+id/textViewCloud"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCloud" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
