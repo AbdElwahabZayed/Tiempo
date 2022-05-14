@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_nav_gragh">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_gragh"
+    app:startDestination="@id/splashFragment">
 
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.iti.tiempo.ui.splash.SplashFragment"
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_initialSetupDialogFragment"
+            app:destination="@id/initialSetupDialogFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <dialog
+        android:id="@+id/initialSetupDialogFragment"
+        android:name="com.iti.tiempo.ui.inital.InitialSetupDialogFragment"
+        android:label="InitialSetupDialogFragment" >
+        <action
+            android:id="@+id/action_initialSetupDialogFragment_to_placePickerFragment"
+            app:destination="@id/placePickerFragment" />
+        <action
+            android:id="@+id/action_initialSetupDialogFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.iti.tiempo.ui.main.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_placePickerFragment"
+            app:destination="@id/placePickerFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_addAlarmDialogFragment"
+            app:destination="@id/addAlarmDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/placePickerFragment"
+        android:name="com.iti.tiempo.ui.placepicker.PlacePickerFragment"
+        android:label="fragment_pick_place"
+        tools:layout="@layout/fragment_pick_place" >
+        <action
+            android:id="@+id/action_placePickerFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/addAlarmDialogFragment"
+        android:name="com.iti.tiempo.ui.alarm.AddAlarmDialogFragment"
+        android:label="AddAlarmDialogFragment" >
+        <action
+            android:id="@+id/action_addAlarmDialogFragment_to_datePickerDialogFragment"
+            app:destination="@id/datePickerDialogFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/datePickerDialogFragment"
+        android:name="com.iti.tiempo.ui.time.DatePickerDialogFragment"
+        android:label="DatePickerDialogFragment" />
 </navigation>

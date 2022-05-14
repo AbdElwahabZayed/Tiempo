@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Tiempo" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Tiempo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryVariant">@color/second_primary</item>
+        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorPrimaryVariant">@color/background_bright</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -12,5 +12,18 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="dialogTheme">@style/CustomDialogTheme</item>
+
+    </style>
+
+    <style name="CustomDialogTheme"  parent="Base.Theme.AppCompat.Light.Dialog">>
+        <item name="dialogTheme">@style/CustomDialogBackgroundStyle</item>
+
+    </style>
+
+    <style name="CustomDialogBackgroundStyle" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="enforceMaterialTheme">false</item>
     </style>
 </resources>

@@ -1,0 +1,23 @@
+<resources>
+    <!--
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=5D:F4:C3:CC:83:39:23:C7:78:EF:F6:35:BC:15:98:8C:AA:89:F8:EF%3Bcom.fourfriends.khokhatofaha.ui.address.view
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    com.fourfriends.khokhatofaha.ui.address.view
+
+    SHA-1 certificate fingerprint:
+    5D:F4:C3:CC:83:39:23:C7:78:EF:F6:35:BC:15:98:8C:AA:89:F8:EF
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">MAPS_API_KEY</string>
+</resources>

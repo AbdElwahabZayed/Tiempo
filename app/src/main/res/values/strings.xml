@@ -10,6 +10,7 @@
     <string name="wind">Wind</string>
     <string name="humidity">Humidity</string>
     <string name="pressure">Pressure</string>
+    <string name="pressure_sign">hpa</string>
     <string name="cloud">Cloud</string>
     <string name="ultra_violet">Ultra violet</string>
     <string name="visibility">Visibility</string>
@@ -20,9 +21,14 @@
     <string name="fahrenheit">Fahrenheit</string>
     <string name="kelvin">Kelvin</string>
     <string name="celsius">Celsius</string>
+    <string name="fahrenheit_sign">F</string>
+    <string name="kelvin_sign">K</string>
+    <string name="celsius_sign">C</string>
     <string name="wind_speed">Wind Speed</string>
     <string name="meter_per_sec">Meter / Sec</string>
+    <string name="meter_per_sec_sign">m/s</string>
     <string name="mile_per_sec">Mile / Sec</string>
+    <string name="mile_per_sec_sign">mps</string>
     <string name="disable">Disable</string>
     <string name="enable">Enable</string>
     <string name="more">more</string>
@@ -34,4 +40,16 @@
     <string name="save">Save</string>
     <string name="weather_alarm">Weather alarm</string>
     <string name="dismiss">Dismiss</string>
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
+    <string name="alarms">Alarms</string>
+    <string name="settings">Settings</string>
+    <string name="select">Select</string>
+    <string name="we_can_not_fetch_your_location">We couldn\'t fetch your location.</string>
+    <string name="please_allow_app_to_access_location">Please allow app to access location!</string>
+    <string name="allow">Allow</string>
+    <string name="expired_date">Expired date</string>
+    <string name="visi_unit">m</string>
+
+
 </resources>

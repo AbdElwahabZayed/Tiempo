@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="350dp"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/background_bright"
-    app:cardCornerRadius="4dp"
-    android:elevation="12dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="12dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/background_bright">
 
         <TextView
             android:id="@+id/txt12"
@@ -82,10 +83,10 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchNotification"
+            style="@style/Widget.App.Switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
-            style="@style/Widget.App.Switch"
             android:checked="true"
             app:layout_constraintBottom_toBottomOf="@+id/txt33"
             app:layout_constraintEnd_toEndOf="parent"
@@ -96,11 +97,13 @@
             android:id="@+id/btnOk"
             android:layout_width="wrap_content"
             android:layout_height="42dp"
+            android:layout_marginStart="124dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="124dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/button_background_gradient"
-            app:backgroundTint="@null"
             android:text="@string/ok"
+            app:backgroundTint="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
