@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_mainFragment_to_addAlarmDialogFragment"
             app:destination="@id/addAlarmDialogFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_deleteFragmentDialog"
+            app:destination="@id/deleteFragmentDialog" />
     </fragment>
     <fragment
         android:id="@+id/placePickerFragment"
@@ -63,4 +66,8 @@
         android:id="@+id/datePickerDialogFragment"
         android:name="com.iti.tiempo.ui.time.DatePickerDialogFragment"
         android:label="DatePickerDialogFragment" />
+    <dialog
+        android:id="@+id/deleteFragmentDialog"
+        android:name="com.iti.tiempo.ui.favorites.DeleteFragmentDialog"
+        android:label="DeleteFragmentDialog" />
 </navigation>

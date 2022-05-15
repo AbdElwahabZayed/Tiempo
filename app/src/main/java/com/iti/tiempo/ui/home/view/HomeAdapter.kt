@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.imageLoader
 import coil.load
+import coil.request.ImageRequest
+import coil.size.Scale
 import coil.transform.CircleCropTransformation
 import com.iti.tiempo.base.ui.BaseAdapterViewHolder
 import com.iti.tiempo.base.utils.*
@@ -89,7 +92,13 @@ class HomeAdapter(
     ) :
         BaseAdapterViewHolder(itemView = item.root) {
         fun onBind(weatherItem: WeatherItem) {
-            item.imgViewCityWeather.load(WEATHER_API_IMAGE_ENDPOINT + weatherItem.icon + ".png")
+            val request = ImageRequest.Builder(item.root.context)
+                .data(WEATHER_API_IMAGE_ENDPOINT + weatherItem.icon + ".png")
+                .crossfade(true)
+                .target(item.imgViewCityWeather)
+                .build()
+//            load(WEATHER_API_IMAGE_ENDPOINT + weatherItem.icon + ".png")
+            item.imgViewCityWeather.context.imageLoader.enqueue(request)
             item.textViewTempType.setTextWithCurrentTempType(appSharedPreference)
             item.textViewTempValue.setTextWithCurrentTempValue(appSharedPreference,
                 weatherItem.temp ?: 0.0)

@@ -1,6 +1,7 @@
 package com.iti.tiempo.local
 
 import androidx.room.TypeConverter
+import com.google.android.gms.maps.model.LatLng
 import com.iti.tiempo.model.*
 import com.iti.tiempo.utils.MoshiHelper
 import com.squareup.moshi.Moshi
@@ -56,7 +57,7 @@ class RoomConverters {
         )
         return when (minutelyItems) {
             null -> ""
-            else ->  moshiHelper.getJsonStringFromListOfObject(type,
+            else -> moshiHelper.getJsonStringFromListOfObject(type,
                 minutelyItems)
         }
     }
@@ -70,12 +71,15 @@ class RoomConverters {
     fun getCurrentFromString(current: String): Current? {
         return moshiHelper.getObjFromJsonString(Current::class.java, current)
     }
-//    @TypeConverter
-//    fun getStringFromFeelsLike(feelsLike: FeelsLike):String{
-//        return moshiHelper.getJsonStringFromObject(FeelsLike::class.java,feelsLike)
-//    }
-//    @TypeConverter
-//    fun getFeelsLikeFromString(feelsLike: String):FeelsLike?{
-//        return moshiHelper.getObjFromJsonString(FeelsLike::class.java,feelsLike)
-//    }
+
+    @TypeConverter
+    fun getLatLonFromString(json: String): LatLng? {
+        return moshiHelper.getObjFromJsonString(LatLng::class.java, json)
+    }
+
+    @TypeConverter
+    fun getJsonFromLatLon(latLng: LatLng): String{
+        return moshiHelper.getJsonStringFromObject(LatLng::class.java,latLng)
+    }
+
 }

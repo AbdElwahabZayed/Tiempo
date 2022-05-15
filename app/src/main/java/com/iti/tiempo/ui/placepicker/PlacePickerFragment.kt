@@ -56,7 +56,7 @@ class PlacePickerFragment :
 
     @Inject
     lateinit var moshiHelper: MoshiHelper
-    lateinit var location: LatLng
+    var location: LocationDetails = LocationDetails()
     lateinit var mGoogleMap: GoogleMap
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -67,13 +67,13 @@ class PlacePickerFragment :
             googleMap.clear()
             googleMap.addMarker(MarkerOptions().position(it))
             Log.i(TAG, "Google Map: $it")
-            location = it
+            location.latLng = it
             binding.btnSelect.visibility = View.VISIBLE
             val geocoder = Geocoder(requireContext(), Locale.getDefault())
             try {
                 val addresses = geocoder.getFromLocation(
-                    location.latitude,
-                    location.longitude,
+                    location.latLng.latitude,
+                    location.latLng.longitude,
                     1
                 ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
                 address =
@@ -114,15 +114,17 @@ class PlacePickerFragment :
                 )
                 appSharedPreference.setValue(
                     CURRENT_LOCATION,
-                        moshiHelper.getJsonStringFromObject(LocationDetails::class.java,
-                        LocationDetails(location, address, Date().getDateHomeStyleString()))
+                    moshiHelper.getJsonStringFromObject(LocationDetails::class.java,
+                        LocationDetails(location.latLng, address, Date().getDateHomeStyleString()))
                 )
             } else
                 navigateBack(location)
         }
     }
 
-    private fun navigateBack(location: LatLng) = with(navController) {
+    private fun navigateBack(location: LocationDetails) = with(navController) {
+        location.address =address
+        location.lastDate = Date().getDateHomeStyleString()
         previousBackStackEntry?.savedStateHandle?.set(LOCATION_KEY, location)
         navigateUp()
     }
@@ -141,11 +143,11 @@ class PlacePickerFragment :
                 object : LocationCallback() {
                     override fun onLocationResult(locationResult: LocationResult) {
                         super.onLocationResult(locationResult)
-                        location = LatLng(
+                        location.latLng = LatLng(
                             locationResult.lastLocation.latitude,
                             locationResult.lastLocation.longitude
                         )
-                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f))
+                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location.latLng, 15.0f))
                         fusedLocationProviderClient.removeLocationUpdates(this)
                         Log.i(TAG, "onLocationResult: $location  ${this@PlacePickerFragment}")
                     }

@@ -1,4 +1,4 @@
-    package com.iti.tiempo.ui.home.view
+package com.iti.tiempo.ui.home.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.imageLoader
 import coil.request.ImageRequest
+import coil.size.Scale
 import com.iti.tiempo.R
 import com.iti.tiempo.base.utils.setTextToDayFromTimeStamp
 import com.iti.tiempo.base.utils.setTextWithCurrentTempValueWithType
@@ -26,7 +27,7 @@ class DaysAdapter(private val days: List<DailyItem>, val appSharedPreference: Ap
     }
 
     override fun onBindViewHolder(holder: DaysViewHolder, position: Int) {
-        holder.onBind(days[position],position)
+        holder.onBind(days[position], position)
     }
 
     override fun getItemCount() = days.size
@@ -36,16 +37,21 @@ class DaysAdapter(private val days: List<DailyItem>, val appSharedPreference: Ap
         val appSharedPreference: AppSharedPreference,
     ) : RecyclerView.ViewHolder(item.root) {
         fun onBind(day: DailyItem, position: Int) {
-            if (position==0)
-                item.containerLayout.background = ContextCompat.getDrawable(item.root.context,R.drawable.button_background_gradient)
-            item.textViewDay.setTextToDayFromTimeStamp(day.dt)
+            if (position == 0)
+                item.containerLayout.background = ContextCompat.getDrawable(item.root.context,
+                    R.drawable.button_background_gradient)
+            item.textViewDay.setTextToDayFromTimeStamp(day.dt,appSharedPreference)
             item.textViewTemp.setTextWithCurrentTempValueWithType(appSharedPreference, day.temp)
             item.textViewStatus.text = day.weather[0].description
             val request = ImageRequest.Builder(item.root.context)
-                .data(WEATHER_API_IMAGE_ENDPOINT + day.weather[0].icon)
+                .data(WEATHER_API_IMAGE_ENDPOINT + day.weather[0].icon + ".png")
+                .size(72,72)
                 .target(
                     onSuccess = { result ->
-                        item.textViewStatus.compoundDrawablesRelative[0] = result
+                        item.textViewStatus.setCompoundDrawablesWithIntrinsicBounds(result,
+                            null,
+                            null,
+                            null)
                     },
                 )
                 .build()

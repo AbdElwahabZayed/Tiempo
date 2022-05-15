@@ -50,6 +50,9 @@
     <string name="allow">Allow</string>
     <string name="expired_date">Expired date</string>
     <string name="visi_unit">m</string>
+    <string name="delete">Delete</string>
+    <string name="are_you_sure">Are you sure!</string>
+    <string name="sure">Sure</string>
 
 
 </resources>

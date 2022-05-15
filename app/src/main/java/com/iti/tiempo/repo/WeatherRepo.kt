@@ -12,11 +12,14 @@ import kotlinx.coroutines.flow.Flow
 interface WeatherRepo {
     suspend fun getWeather(
         currentLocation: LocationDetails,
-        scope: CoroutineScope,
         lang: String = "en",
     ): Flow<WeatherResponse>
 
     suspend fun getAllFavoritesWeather(currentLocation: LatLng): Flow<List<WeatherResponse>>
     suspend fun deleteWeather(weatherResponse: WeatherResponse)
-    suspend fun insertFavoriteWeather(weatherResponse: WeatherResponse)
+    suspend fun deleteWeather(lat:Double,lon :Double)
+    suspend fun insertWeather(
+        currentLocation: LocationDetails,
+        lang: String,
+    )
 }

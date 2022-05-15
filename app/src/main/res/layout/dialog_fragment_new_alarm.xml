@@ -147,6 +147,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:buttonTint="@color/primary"
+                android:checked="true"
                 android:text="@string/notification"/>
         </RadioGroup>
 

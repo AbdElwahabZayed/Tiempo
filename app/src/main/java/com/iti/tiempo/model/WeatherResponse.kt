@@ -1,11 +1,14 @@
 package com.iti.tiempo.model
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.Ignore
 import com.google.android.gms.maps.model.LatLng
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
+
 @JsonClass(generateAdapter = true)
 @Entity(primaryKeys = ["lat", "lon"])
 data class WeatherResponse(
@@ -35,14 +38,15 @@ data class WeatherResponse(
     var minutely: List<MinutelyItem>?,
     @NonNull
     @Json(name = "lat")
-    var lat: Double=0.0,
+    var lat: Double = 0.0,
 
     var address: String?,
 
-    var lastDate: String?
-){
-    constructor():this(null,null,null,null,null,0.0,null,null,0.0,null,null)
+    var lastDate: String?,
+) {
+    constructor() : this(null, null, null, null, null, 0.0, null, null, 0.0, null, null)
 }
+
 @JsonClass(generateAdapter = true)
 data class WeatherItem(
 
@@ -58,8 +62,9 @@ data class WeatherItem(
     @Json(name = "id")
     val id: Int,
 
-    var temp: Double?
+    var temp: Double?,
 )
+
 @JsonClass(generateAdapter = true)
 data class Temp(
 
@@ -81,6 +86,7 @@ data class Temp(
     @Json(name = "morn")
     val morn: Double,
 )
+
 @JsonClass(generateAdapter = true)
 data class AlertsItem(
 
@@ -102,6 +108,7 @@ data class AlertsItem(
     @Json(name = "tags")
     val tags: List<String>,
 )
+
 @JsonClass(generateAdapter = true)
 data class HourlyItem(
 
@@ -127,7 +134,7 @@ data class HourlyItem(
     val wind_gust: Double?,
 
     @Json(name = "dt")
-    val dt: Int,
+    val dt: Long,
 
     @Json(name = "pop")
     val pop: Double,
@@ -147,6 +154,7 @@ data class HourlyItem(
     @Json(name = "wind_speed")
     val windSpeed: Double,
 )
+
 @JsonClass(generateAdapter = true)
 data class DailyItem(
 
@@ -184,7 +192,7 @@ data class DailyItem(
     val windGust: Double?,
 
     @Json(name = "dt")
-    val dt: Int,
+    val dt: Long,
 
     @Json(name = "pop")
     val pop: Double,
@@ -207,6 +215,7 @@ data class DailyItem(
     @Json(name = "wind_speed")
     val windSpeed: Double,
 )
+
 @JsonClass(generateAdapter = true)
 data class Current(
 
@@ -255,6 +264,7 @@ data class Current(
     @Json(name = "wind_speed")
     val windSpeed: Double,
 )
+
 @JsonClass(generateAdapter = true)
 data class FeelsLike(
 
@@ -270,6 +280,7 @@ data class FeelsLike(
     @Json(name = "morn")
     val morn: Double,
 )
+
 @JsonClass(generateAdapter = true)
 data class MinutelyItem(
 
@@ -279,5 +290,10 @@ data class MinutelyItem(
     @Json(name = "precipitation")
     val precipitation: Int,
 )
+@Parcelize
 @JsonClass(generateAdapter = true)
-data class LocationDetails(val latLng: LatLng, val address: String, val lastDate: String)
+data class LocationDetails(
+    var latLng: LatLng = LatLng(0.0, 0.0),
+    var address: String = "",
+    var lastDate: String = "",
+) : Parcelable

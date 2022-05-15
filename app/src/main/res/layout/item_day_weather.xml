@@ -7,8 +7,12 @@
     android:layout_marginStart="16dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
-    app:cardCornerRadius="26dp"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="8dp"
+    android:elevation="8dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="8dp"
+    app:cardPreventCornerOverlap="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerLayout"
@@ -36,15 +40,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:drawablePadding="8dp"
             android:textColor="@color/white"
             android:textSize="16sp"
+            app:drawableStartCompat="@drawable/ic_sunny"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Clear sky"
-            android:drawablePadding="8dp"
-            app:drawableStartCompat="@drawable/ic_sunny" />
+            tools:text="Clear sky" />
 
         <TextView
             android:id="@+id/textViewTemp"

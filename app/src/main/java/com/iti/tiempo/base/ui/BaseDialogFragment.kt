@@ -26,6 +26,7 @@ abstract class BaseDialogFragment<T : ViewBinding>(private val bindingInflater: 
         _binding = bindingInflater.invoke(layoutInflater, container, false)
         afterOnCreateView()
         setStyle(STYLE_NO_TITLE, R.style.CustomDialogTheme)
+        isCancelable = false
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return binding.root
     }
@@ -34,11 +35,6 @@ abstract class BaseDialogFragment<T : ViewBinding>(private val bindingInflater: 
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
         afterOnViewCreated()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        isCancelable = false
     }
 
     open fun afterOnViewCreated() {

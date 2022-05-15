@@ -6,20 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent">
 
-    <ImageView
-        android:id="@+id/imgViewCityWeather"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="166dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="@string/weather_status"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/cardView"
-        app:layout_constraintStart_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toTopOf="@+id/cardView"
-        tools:ignore="ImageContrastCheck"
-        tools:srcCompat="@tools:sample/avatars" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
@@ -76,5 +62,19 @@
                 tools:text="`C" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imgViewCityWeather"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="132dp"
+        android:contentDescription="@string/weather_status"
+        android:scaleType="centerCrop"
+        android:translationZ="90dp"
+        app:layout_constraintEnd_toEndOf="@+id/cardView"
+        app:layout_constraintStart_toStartOf="@+id/cardView"
+        app:layout_constraintTop_toTopOf="@+id/cardView"
+        tools:ignore="ImageContrastCheck"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

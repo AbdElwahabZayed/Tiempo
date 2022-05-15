@@ -32,7 +32,9 @@ fun TextView.setTextWithCurrentTempValueWithType(
     value: Double,
 ) {
     this.text = when (appSharedPreference.getStringValue(CURRENT_TEMP_TYPE, Fahrenheit)) {
-        Fahrenheit -> "${value.toFah().toInt()}°${context.resources.getString(R.string.fahrenheit_sign)}"
+        Fahrenheit -> "${
+            value.toFah().toInt()
+        }°${context.resources.getString(R.string.fahrenheit_sign)}"
         Celsius -> "${value.toCel().toInt()} °${context.resources.getString(R.string.celsius_sign)}"
         else -> "${value.toInt()}°${context.resources.getString(R.string.kelvin_sign)}"
     }
@@ -43,8 +45,12 @@ fun TextView.setTextWithCurrentTempValueWithType(
     value: Temp,
 ) {
     this.text = when (appSharedPreference.getStringValue(CURRENT_TEMP_TYPE, Fahrenheit)) {
-        Fahrenheit -> "${value.min.toFah().toInt()}/${value.max.toFah().toInt()}°${context.resources.getString(R.string.fahrenheit_sign)}"
-        Celsius -> "${value.min.toCel().toInt()}/${value.max.toCel().toInt()}°${context.resources.getString(R.string.celsius_sign)}"
+        Fahrenheit -> "${value.min.toFah().toInt()}/${
+            value.max.toFah().toInt()
+        }°${context.resources.getString(R.string.fahrenheit_sign)}"
+        Celsius -> "${value.min.toCel().toInt()}/${
+            value.max.toCel().toInt()
+        }°${context.resources.getString(R.string.celsius_sign)}"
         else -> "${value.min.toInt()}/${value.max.toInt()}°${context.resources.getString(R.string.kelvin_sign)}"
     }
 }
@@ -61,11 +67,12 @@ fun TextView.setVisibilityWithUnit(visibility: Int) {
 
 @SuppressLint("SetTextI18n")
 fun TextView.setWindWithUnit(appSharedPreference: AppSharedPreference, speed: Double) {
-    this.text = when (appSharedPreference.getStringValue(WIND_SPEED_TYPE, METER_SEC)){
-        METER_SEC ->"$speed ${context.resources.getString(R.string.meter_per_sec)}"
-        else -> "$speed ${context.resources.getString(R.string.mile_per_sec)}"
+    this.text = when (appSharedPreference.getStringValue(WIND_SPEED_TYPE, METER_SEC)) {
+        METER_SEC -> "$speed ${context.resources.getString(R.string.meter_per_sec_sign)}"
+        else -> "$speed ${context.resources.getString(R.string.mile_per_sec_sign)}"
     }
 }
+
 @SuppressLint("SetTextI18n")
 fun TextView.setPressureWithUnit(pressure: Int) {
     this.text = "$pressure ${context.resources.getString(R.string.pressure_sign)}"
@@ -75,6 +82,7 @@ fun TextView.setPressureWithUnit(pressure: Int) {
 fun Double.toFah(): Double {
     return (1.8 * (this - 273)) + 32
 }
+
 //C = K - 273.15
 fun Double.toCel(): Double {
     return (this - 273.15)
@@ -85,15 +93,19 @@ fun Double.tokel(): Double {
 }
 
 @SuppressLint("SimpleDateFormat")
-fun TextView.setTimeForHourFromTimeStamp(time: Int) {
-    val dt = Date(time.toLong())
-    val sdf = SimpleDateFormat("hh aa")
-    text = sdf.format(dt)
+fun TextView.setTimeForHourFromTimeStamp(time: Long, appSharedPreference: AppSharedPreference) {
+    println("time = " + time)
+    text = getDateTime("hh aa", time, appSharedPreference)
+}
+
+fun getDateTime(pattern: String, time: Long, appSharedPreference: AppSharedPreference): String {
+    val sdf = SimpleDateFormat(pattern, Locale(appSharedPreference.getStringValue(LOCALE, "en")))
+    sdf.timeZone = TimeZone.getTimeZone("GMT+2")
+    sdf.timeZone = TimeZone.getDefault()
+    return sdf.format(Date(time * 1000L))
 }
 
 @SuppressLint("SimpleDateFormat")
-fun TextView.setTextToDayFromTimeStamp(time: Int) {
-    val dt = Date(time.toLong())
-    val sdf = SimpleDateFormat("EEE")
-    text = sdf.format(dt)
+fun TextView.setTextToDayFromTimeStamp(time: Long,appSharedPreference: AppSharedPreference) {
+    text = getDateTime("EEE",time,appSharedPreference)
 }

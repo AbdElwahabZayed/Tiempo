@@ -37,15 +37,16 @@ class HoursAdapter(
         val appSharedPreference: AppSharedPreference,
     ) : RecyclerView.ViewHolder(item.root) {
         fun onBind(hour: HourlyItem) {
-            item.textViewHour.setTimeForHourFromTimeStamp(hour.dt)
+            item.textViewHour.setTimeForHourFromTimeStamp(hour.dt,appSharedPreference)
             item.textViewTemp.setTextWithCurrentTempValueWithType(appSharedPreference, hour.temp)
             val link = WEATHER_API_IMAGE_ENDPOINT + hour.weather[0].icon + ".png"
-            val uri = link.toUri().buildUpon().scheme("https").build()
             val request = ImageRequest.Builder(item.root.context)
                 .data(link)
+                .size(72,72)
+
                 .target(
                     onSuccess = { result ->
-                        item.textViewTemp.compoundDrawablesRelative[1] = result
+                        item.textViewTemp.setCompoundDrawablesWithIntrinsicBounds(null,result,null,null)
                     },
                 )
                 .build()

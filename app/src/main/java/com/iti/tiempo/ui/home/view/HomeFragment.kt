@@ -24,10 +24,7 @@ import com.iti.tiempo.model.HourlyItem
 import com.iti.tiempo.model.LocationDetails
 import com.iti.tiempo.network.exceptions.MyException
 import com.iti.tiempo.ui.home.viewmodel.HomeViewModel
-import com.iti.tiempo.utils.CURRENT_LOCATION
-import com.iti.tiempo.utils.MoshiHelper
-import com.iti.tiempo.utils.PermissionHandler
-import com.iti.tiempo.utils.PermissionListener
+import com.iti.tiempo.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.NullPointerException
 import javax.inject.Inject
@@ -78,7 +75,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 //Should get location in case of gps when create home fragment
             }
             else -> {
-                mViewModel.getCurrentWeather(currentLocation!!)
+                mViewModel.getCurrentWeather(currentLocation!!, appSharedPreference.getStringValue(
+                    LOCALE, "en"))
             }
         }
         setUpView()
@@ -90,7 +88,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 moshiHelper.getObjFromJsonString(LocationDetails::class.java,
                     appSharedPreference.getStringValue(
                         CURRENT_LOCATION, ""))
-            mViewModel.getCurrentWeather(currentLocation!!)
+            mViewModel.getCurrentWeather(currentLocation!!,
+                appSharedPreference.getStringValue(LOCALE, "en"))
         }
     }
 
@@ -98,10 +97,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         super.afterOnViewCreated()
         mViewModel.currentWeather.removeObservers(viewLifecycleOwner)
         mViewModel.currentWeather.observe(viewLifecycleOwner) { weather ->
-            binding.swipeLayout.isRefreshing=false
+            binding.swipeLayout.isRefreshing = false
             when (weather) {
                 null -> {
-                    Log.e(TAG, "afterOnViewCreated: ",NullPointerException() )
+                    Log.e(TAG, "afterOnViewCreated: ", NullPointerException())
                 }
                 else -> {
                     adapterData.clear()
@@ -109,8 +108,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         weather.address ?: "none",
                         weather.lastDate ?: "none")
                     val weatherStatus = weather.current?.weather!![0]
-                    val hours:List<HourlyItem>? = weather.hourly
-                    val daily:List<DailyItem>? = weather.daily
+                    val hours: List<HourlyItem>? = weather.hourly
+                    val daily: List<DailyItem>? = weather.daily
                     val current = weather.current
                     adapterData.add(locationDetails)
                     adapterData.add(weatherStatus)
