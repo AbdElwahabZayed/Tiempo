@@ -19,10 +19,16 @@ import com.iti.tiempo.network.exceptions.MyException
 import com.iti.tiempo.utils.*
 import java.lang.IllegalArgumentException
 
+interface OnClickActionListener {
+    fun onClickEnable()
+    fun onClickAllow()
+}
+
 @Suppress("UNCHECKED_CAST")
 class HomeAdapter(
     private var adapterData: MutableList<Any>,
     val appSharedPreference: AppSharedPreference,
+    val onClickActionListener: OnClickActionListener,
 ) :
     RecyclerView.Adapter<BaseAdapterViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseAdapterViewHolder {
@@ -39,6 +45,8 @@ class HomeAdapter(
                 LayoutInflater.from(parent.context), parent, false), appSharedPreference)
             NO_PERMISSION -> NoPermissionViewHolder(ItemAllowAccessLocationBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false))
+            GPSIsDisabled -> GpsIsDisabledViewHolder(ItemGpsIsDisabledBinding.inflate(LayoutInflater.from(
+                parent.context), parent, false))
             else -> {
                 Log.e("TAG", "onCreateViewHolder: $viewType")
                 throw IllegalArgumentException()
@@ -53,6 +61,7 @@ class HomeAdapter(
             is WeatherItem -> ITEM_WEATHER_STATUS
             is Current -> ITEM_WEATHER_DETAILS
             is MyException.NoGPSPermission -> NO_PERMISSION
+            is MyException.GPSIsDisabled -> GPSIsDisabled
             else -> when ((data as List<*>)[0]) {
                 is HourlyItem -> ITEM_HOURS
                 is DailyItem -> ITEM_DAYS
@@ -70,9 +79,13 @@ class HomeAdapter(
             is HoursViewHolder -> holder.onBind(data as List<HourlyItem>)
             is WeatherDetailsViewHolder -> holder.onBind(data as Current)
             is DaysViewHolder -> holder.onBind(data as List<DailyItem>)
-            is NoPermissionViewHolder -> {
-                //Nothing
-                //should pass closure
+            is NoPermissionViewHolder ->
+                holder.item.btnAllow.setOnClickListener {
+                    onClickActionListener.onClickAllow()
+                }
+
+            is GpsIsDisabledViewHolder -> holder.item.btnEnable.setOnClickListener{
+                onClickActionListener.onClickEnable()
             }
         }
     }
@@ -150,6 +163,9 @@ class HomeAdapter(
         }
     }
 
-    class NoPermissionViewHolder(item: ItemAllowAccessLocationBinding) :
+    class NoPermissionViewHolder(val item: ItemAllowAccessLocationBinding) :
+        BaseAdapterViewHolder(itemView = item.root)
+
+    class GpsIsDisabledViewHolder(val item: ItemGpsIsDisabledBinding) :
         BaseAdapterViewHolder(itemView = item.root)
 }

@@ -1,7 +1,10 @@
 package com.iti.tiempo.di
 
+import com.iti.tiempo.local.AlarmDao
 import com.iti.tiempo.local.WeatherDao
 import com.iti.tiempo.network.WeatherService
+import com.iti.tiempo.repo.AlarmRepo
+import com.iti.tiempo.repo.AlarmRepoImpl
 import com.iti.tiempo.repo.WeatherRepo
 import com.iti.tiempo.repo.WeatherRepoImpl
 import dagger.Module
@@ -17,5 +20,11 @@ object RepoModule {
     @ViewModelScoped
     fun providesWeatherRepo(weatherService: WeatherService, weatherDao: WeatherDao): WeatherRepo {
         return WeatherRepoImpl(weatherService, weatherDao)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun providesAlarmRepo(alarmDao: AlarmDao): AlarmRepo {
+        return AlarmRepoImpl(alarmDao)
     }
 }

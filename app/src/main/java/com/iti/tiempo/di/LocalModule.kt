@@ -2,6 +2,7 @@ package com.iti.tiempo.di
 
 import android.content.Context
 import androidx.room.Room
+import com.iti.tiempo.local.AlarmDao
 import com.iti.tiempo.local.WeatherDao
 import com.iti.tiempo.local.WeatherDataBase
 import com.iti.tiempo.utils.DB_NAME
@@ -27,8 +28,14 @@ object LocalModule{
 
     @Singleton
     @Provides
-    fun parentDao(database: WeatherDataBase): WeatherDao {
+    fun weatherDao(database: WeatherDataBase): WeatherDao {
         return database.weatherDao()
+    }
+
+    @Singleton
+    @Provides
+    fun alarmDao(database: WeatherDataBase): AlarmDao {
+        return database.alarmDao()
     }
 
 

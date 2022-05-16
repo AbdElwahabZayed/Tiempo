@@ -93,9 +93,8 @@ fun Double.tokel(): Double {
 }
 
 @SuppressLint("SimpleDateFormat")
-fun TextView.setTimeForHourFromTimeStamp(time: Long, appSharedPreference: AppSharedPreference) {
-    println("time = " + time)
-    text = getDateTime("hh aa", time, appSharedPreference)
+fun TextView.setTimeForHourFromTimeStamp(time: Long, appSharedPreference: AppSharedPreference,pattern: String="hh aa") {
+    text = getDateTime(pattern, time, appSharedPreference)
 }
 
 fun getDateTime(pattern: String, time: Long, appSharedPreference: AppSharedPreference): String {
@@ -106,6 +105,18 @@ fun getDateTime(pattern: String, time: Long, appSharedPreference: AppSharedPrefe
 }
 
 @SuppressLint("SimpleDateFormat")
-fun TextView.setTextToDayFromTimeStamp(time: Long,appSharedPreference: AppSharedPreference) {
-    text = getDateTime("EEE",time,appSharedPreference)
+fun getDateTime(pattern: String, time: Long): String {
+    val sdf = SimpleDateFormat(pattern)
+    sdf.timeZone = TimeZone.getTimeZone("GMT+2")
+    sdf.timeZone = TimeZone.getDefault()
+    return sdf.format(Date(time ))
+}
+
+@SuppressLint("SimpleDateFormat")
+fun TextView.setTextToDayFromTimeStamp(time: Long, appSharedPreference: AppSharedPreference) {
+    text = getDateTime("EEE", time, appSharedPreference)
+}
+
+fun TextView.setDateFromTimeStamp(time: Long) {
+    text = getDateTime("MM/dd/yy", time)
 }

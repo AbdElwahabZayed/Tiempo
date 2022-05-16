@@ -10,3 +10,4 @@ const val ITEM_HOURS = 6
 const val ITEM_WEATHER_DETAILS = 7
 const val ITEM_WEATHER_STATUS = 8
 const val UNSUPPORTED = -1
+const val GPSIsDisabled = 9

@@ -26,7 +26,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHeadersInterceptor(appPreferences: AppSharedPreference, @ApplicationContext context: Context) =
+    fun provideHeadersInterceptor() =
         Interceptor { chain ->
             chain.proceed(
                 chain.request().newBuilder()
@@ -47,27 +47,28 @@ object NetworkModule {
     fun provideOkHttpClient(
         headersInterceptor: Interceptor,
         logging: HttpLoggingInterceptor,
-        @ApplicationContext context: Context
     ): OkHttpClient {
         return OkHttpClient.Builder()
-                .readTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
-                .connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(headersInterceptor)
-                .build()
+            .readTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+            .addInterceptor(headersInterceptor)
+            .addInterceptor(logging)
+            .build()
 
     }
 
 
     @Provides
     @Singleton
-    fun provideHomeServices( okHttpClient: OkHttpClient): WeatherService {
-        return getDynamicRetrofitClient( okHttpClient ,NETWORK_URL).create(WeatherService::class.java)
+    fun provideHomeServices(okHttpClient: OkHttpClient): WeatherService {
+        return getDynamicRetrofitClient(okHttpClient,
+            NETWORK_URL).create(WeatherService::class.java)
     }
 
 
     private fun getDynamicRetrofitClient(
         client: OkHttpClient,
-        baseUrl: String
+        baseUrl: String,
     ): Retrofit {
         return Retrofit.Builder()
             .client(client)

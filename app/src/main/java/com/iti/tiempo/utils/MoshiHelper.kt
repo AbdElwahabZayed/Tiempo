@@ -20,6 +20,8 @@ class MoshiHelper @Inject constructor(private val moshi: Moshi) {
         } catch (e: JsonDataException) {
             Log.e(TAG, "getObjFromJsonString: ", e)
             null
+        }catch (ex:EOFException){
+            null
         }
     }
 

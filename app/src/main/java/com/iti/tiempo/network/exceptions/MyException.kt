@@ -7,6 +7,7 @@ sealed class MyException : Exception() {
     object TimeoutException : MyException()
     object ConnectionException : MyException()
     object NoGPSPermission :MyException()
+    object GPSIsDisabled :MyException()
     object AuthorizationException : MyException()
     data class CustomException(val msg: String) : MyException()
     data class NeedActiveException(val msg: String) : MyException()

@@ -53,6 +53,9 @@
     <string name="delete">Delete</string>
     <string name="are_you_sure">Are you sure!</string>
     <string name="sure">Sure</string>
+    <string name="start_should_be_before_end">Start date should be before end.</string>
+    <string name="gps_is_disabled">Gps is disabled!</string>
+    <string name="please_enable_gps">Please enable GPS!</string>
 
 
 </resources>
