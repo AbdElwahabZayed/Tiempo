@@ -70,6 +70,7 @@ class DatePickerDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLis
 
 
 
+        date.set(year, month, dayOfMonth, 0, 0)
 
         Log.d(TAG, "onDateSet: $date")
         when {
@@ -80,7 +81,7 @@ class DatePickerDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLis
                     date)
             }
             startDate.after(date) -> Toast.makeText(context,
-                resources.getString(R.string.start_should_be_before_end),
+                "sssssssssssss",
                 Toast.LENGTH_LONG).show()
             else -> {
                 date.set(year, month, dayOfMonth, 23, 59)

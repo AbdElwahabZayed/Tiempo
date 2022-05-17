@@ -27,7 +27,7 @@
     <string name="wind_speed">Wind Speed</string>
     <string name="meter_per_sec">Meter / Sec</string>
     <string name="meter_per_sec_sign">m/s</string>
-    <string name="mile_per_sec">Mile / Sec</string>
+    <string name="mile_per_sec">Mile / hour</string>
     <string name="mile_per_sec_sign">mps</string>
     <string name="disable">Disable</string>
     <string name="enable">Enable</string>
@@ -56,6 +56,7 @@
     <string name="start_should_be_before_end">Start date should be before end.</string>
     <string name="gps_is_disabled">Gps is disabled!</string>
     <string name="please_enable_gps">Please enable GPS!</string>
+    <string name="fill_all_fields">Fill all fields</string>
 
 
 </resources>

@@ -75,27 +75,42 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = mAdapter
         }
-        currentLocation =
-            moshiHelper.getObjFromJsonString(LocationDetails::class.java,
-                appSharedPreference.getStringValue(
-                    CURRENT_LOCATION, ""))
-        Log.i(TAG, "afterOnCreateView: $currentLocation")
-        when (currentLocation) {
-            null -> {
+        when (appSharedPreference.getStringValue(TYPE_OF_LOCATION, GPS)) {
+            GPS -> {
                 permissionHandler.checkForMultiplePermissions(
                     arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     )
                 )
-                //TODO show item in recycler view for two cases map go to map else can't fetch location
-                //Should get location in case of gps when create home fragment
             }
-            else -> {
-                mViewModel.getCurrentWeather(currentLocation!!, appSharedPreference.getStringValue(
-                    LOCALE, "en"))
+            MAP -> {
+                currentLocation =
+                    moshiHelper.getObjFromJsonString(LocationDetails::class.java,
+                        appSharedPreference.getStringValue(
+                            CURRENT_LOCATION, ""))
+                Log.i(TAG, "afterOnCreateView: $currentLocation")
+                when (currentLocation) {
+                    null -> {
+                        permissionHandler.checkForMultiplePermissions(
+                            arrayOf(
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            )
+                        )
+                        //TODO show item in recycler view for two cases map go to map else can't fetch location
+                        //Should get location in case of gps when create home fragment
+                    }
+                    else -> {
+                        mViewModel.getCurrentWeather(currentLocation!!,
+                            appSharedPreference.getStringValue(
+                                LOCALE, "en"))
+                    }
+                }
             }
         }
+
+
         setUpView()
     }
 
@@ -166,7 +181,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 object : LocationCallback() {
                     override fun onLocationResult(locationResult: LocationResult) {
                         super.onLocationResult(locationResult)
-                        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+                        val geocoder =
+                            Geocoder(requireContext(), Locale(appSharedPreference.getStringValue(
+                                LOCALE, "en")))
                         try {
                             val addresses = geocoder.getFromLocation(
                                 locationResult.lastLocation.latitude,
@@ -182,7 +199,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             appSharedPreference.setValue(
                                 CURRENT_LOCATION,
                                 moshiHelper.getJsonStringFromObject(LocationDetails::class.java,
-                                   currentLocation!!)
+                                    currentLocation!!)
                             )
 
                         } catch (e: IOException) {
@@ -223,8 +240,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun onClickEnable() {
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
-
-
         val client: SettingsClient = LocationServices.getSettingsClient(requireActivity())
         val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
         task.addOnFailureListener { ex ->

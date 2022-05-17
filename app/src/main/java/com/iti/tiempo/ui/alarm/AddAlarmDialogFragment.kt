@@ -10,10 +10,8 @@ import com.iti.tiempo.base.utils.setDateFromTimeStamp
 import com.iti.tiempo.base.utils.setTimeForHourFromTimeStamp
 import com.iti.tiempo.databinding.DialogFragmentNewAlarmBinding
 import com.iti.tiempo.local.AppSharedPreference
-import com.iti.tiempo.utils.END_DATE
-import com.iti.tiempo.utils.START_DATE
-import com.iti.tiempo.utils.TIME
-import com.iti.tiempo.utils.TYPE
+import com.iti.tiempo.model.Alarm
+import com.iti.tiempo.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
@@ -34,14 +32,14 @@ class AddAlarmDialogFragment :
             if (date != null) {
                 startDate = date
                 binding.textViewStartDate.setDateFromTimeStamp(date.timeInMillis)
-//                navController.currentBackStackEntry?.savedStateHandle?.remove<Calendar>(START_DATE)
+                navController.currentBackStackEntry?.savedStateHandle?.remove<Calendar>(START_DATE)
             }
         }
         navController.observe<Calendar>(END_DATE, viewLifecycleOwner) { date ->
             if (date != null) {
                 endDate = date
                 binding.textViewEndDate.setDateFromTimeStamp(date.timeInMillis)
-//                navController.currentBackStackEntry?.savedStateHandle?.remove<Calendar>(END_DATE)
+                navController.currentBackStackEntry?.savedStateHandle?.remove<Calendar>(END_DATE)
             }
         }
         navController.observe<Calendar>(TIME, viewLifecycleOwner) { date ->
@@ -50,14 +48,14 @@ class AddAlarmDialogFragment :
                 binding.textViewTime.setTimeForHourFromTimeStamp(date.timeInMillis,
                     appSharedPreference,
                     "hh:mm aa")
-//                navController.currentBackStackEntry?.savedStateHandle?.remove<Calendar>(TIME)
+                navController.currentBackStackEntry?.savedStateHandle?.remove<Calendar>(TIME)
             }
         }
     }
 
     private fun setOnClickListeners() {
         binding.textViewStartDate.setOnClickListener {
-            endDate=null
+            endDate = null
             binding.textViewEndDate.text = ""
             navController.safeNavigation(R.id.addAlarmDialogFragment,
                 R.id.action_addAlarmDialogFragment_to_datePickerDialogFragment,
@@ -72,7 +70,7 @@ class AddAlarmDialogFragment :
                     R.id.action_addAlarmDialogFragment_to_datePickerDialogFragment,
                     Bundle().apply {
                         putString(TYPE, END_DATE)
-                        putSerializable(START_DATE,startDate)
+                        putSerializable(START_DATE, startDate)
                     })
             else
                 Toast.makeText(context,
@@ -86,6 +84,24 @@ class AddAlarmDialogFragment :
                 Bundle().apply {
                     putString(TYPE, TIME)
                 })
+        }
+        binding.btnSave.setOnClickListener {
+            when {
+                startDate == null || endDate == null || time == null -> {
+                    Toast.makeText(context,
+                        resources.getString(R.string.fill_all_fields),
+                        Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    navController.previousBackStackEntry?.savedStateHandle?.set(ALARM,
+                        Alarm(UUID.randomUUID().toString(),
+                            startDate?.timeInMillis ?: 0L,
+                            endDate?.timeInMillis ?: 0L,
+                            time?.timeInMillis ?: 0L,
+                            if (binding.rbNotification.isChecked) NOTIFICATION else ALARMS))
+                    navController.navigateUp()
+                }
+            }
         }
     }
 }

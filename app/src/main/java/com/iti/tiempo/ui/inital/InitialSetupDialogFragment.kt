@@ -6,8 +6,7 @@ import com.iti.tiempo.base.utils.isGPSActive
 import com.iti.tiempo.base.utils.safeNavigation
 import com.iti.tiempo.databinding.DialogFragmentInitialSetupBinding
 import com.iti.tiempo.local.AppSharedPreference
-import com.iti.tiempo.utils.IS_FIRST
-import com.iti.tiempo.utils.IS_NOTIFICATION_ENABLED
+import com.iti.tiempo.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -29,9 +28,11 @@ class InitialSetupDialogFragment :
             )
             when {
                 binding.rbGps.isChecked -> {
+                    appSharedPreference.setValue(TYPE_OF_LOCATION, GPS)
                     navController.safeNavigation(R.id.initialSetupDialogFragment,R.id.action_initialSetupDialogFragment_to_mainFragment)
                 }
                 else -> {
+                    appSharedPreference.setValue(TYPE_OF_LOCATION, MAP)
                     navController.safeNavigation(R.id.initialSetupDialogFragment,R.id.action_initialSetupDialogFragment_to_placePickerFragment)
                 }
             }

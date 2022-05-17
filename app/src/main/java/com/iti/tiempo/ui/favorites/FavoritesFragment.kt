@@ -97,11 +97,15 @@ class FavoritesFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavorite
             LOCATION_KEY)?.observe(viewLifecycleOwner) {
             mViewModel.insertIntoFavorites(it, appSharedPreference.getStringValue(LOCALE, "en"))
         }
-        mNavController.currentBackStackEntry?.savedStateHandle?.getLiveData<LatLng>(
-            DELETE)?.removeObservers(viewLifecycleOwner)
-        mNavController.currentBackStackEntry?.savedStateHandle?.getLiveData<LatLng>(
-            DELETE)?.observe(viewLifecycleOwner) {
-            mViewModel.deleteWeather(it)
-        }
+
+
+
+        //TODO what is this ?
+//        mNavController.currentBackStackEntry?.savedStateHandle?.getLiveData<LatLng>(
+//            DELETE)?.removeObservers(viewLifecycleOwner)
+//        mNavController.currentBackStackEntry?.savedStateHandle?.getLiveData<LatLng>(
+//            DELETE)?.observe(viewLifecycleOwner) {
+//            mViewModel.deleteWeather(it)
+//        }
     }
 }

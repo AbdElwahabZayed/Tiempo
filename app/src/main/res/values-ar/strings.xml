@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">تيمبو</string>
+    <string name="initial_setup">الإعدادات الأولية</string>
+    <string name="location">المكان</string>
+    <string name="gps">تحديد الموقع</string>
+    <string name="map">الخريطة</string>
+    <string name="notification">الإشعارات</string>
+    <string name="ok">حسنا</string>
+    <string name="weather_status">حالة الطقس</string>
+    <string name="wind">الرياح</string>
+    <string name="humidity">الرطوبة</string>
+    <string name="pressure">الطغط</string>
+    <string name="pressure_sign">هيكتو</string>
+    <string name="cloud">السحب</string>
+    <string name="ultra_violet">الأشعة فوق البنفسجية</string>
+    <string name="visibility">الرؤية</string>
+    <string name="language">اللغة</string>
+    <string name="arabic">العربية</string>
+    <string name="english">الإنجليزية</string>
+    <string name="temperature">الحرارة</string>
+    <string name="fahrenheit">فرنيهيت</string>
+    <string name="kelvin">كيلفن</string>
+    <string name="celsius">سيلزيس</string>
+    <string name="fahrenheit_sign">ف</string>
+    <string name="kelvin_sign">ك</string>
+    <string name="celsius_sign">س</string>
+    <string name="wind_speed">سرعة الرياح</string>
+    <string name="meter_per_sec">متر / ثانية</string>
+    <string name="meter_per_sec_sign">م/ث</string>
+    <string name="mile_per_sec">ميل / ساعة</string>
+    <string name="mile_per_sec_sign">ميل/س</string>
+    <string name="disable">إيقاف</string>
+    <string name="enable">تشغيل</string>
+    <string name="more">مزيد</string>
+    <string name="add_alarm">إضافة منبه</string>
+    <string name="from">من</string>
+    <string name="time">الوقت</string>
+    <string name="to">إلى</string>
+    <string name="alarm">منبه</string>
+    <string name="save">حفظ</string>
+    <string name="weather_alarm">منبه المناخ</string>
+    <string name="dismiss">إلغاء</string>
+    <string name="home">الرئيسية</string>
+    <string name="favorites">المفضلة</string>
+    <string name="alarms">المنبهات</string>
+    <string name="settings">الإعدادات</string>
+    <string name="select">اختيار</string>
+    <string name="we_can_not_fetch_your_location">لم نستطع حساب موقعك!</string>
+    <string name="please_allow_app_to_access_location">الرجاء السماح بالوصول إلى الموقع!</string>
+    <string name="allow">السماح</string>
+    <string name="expired_date">وقت الإنتهاء</string>
+    <string name="visi_unit">م</string>
+    <string name="delete">حذف</string>
+    <string name="are_you_sure">هل أنت متأكد!</string>
+    <string name="sure">نعم</string>
+    <string name="start_should_be_before_end">تاريخ البدء قبل الإنتهاء!</string>
+    <string name="gps_is_disabled">خاصة الموقع مغلقة!</string>
+    <string name="please_enable_gps">الرجاء تفعيل الموقع!</string>
+    <string name="fill_all_fields">املاء كل الحقول!</string>
+
+
+</resources>

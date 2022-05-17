@@ -99,7 +99,7 @@ class PermissionHandler(val context: Fragment, private val permissionListener: P
     fun launchPermissionDialogForMultiplePermissions(manifestPermissions: Array<String>){
         requestMultiplePermissionsLauncher.launch(manifestPermissions)
     }
-    fun launchPermissionDialog(manifestPermission: String){
+    private fun launchPermissionDialog(manifestPermission: String){
         requestPermissionLauncher.launch(
             manifestPermission
         )

@@ -216,7 +216,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
                             android:buttonTint="@color/primary"
-                            android:checked="true"
                             android:text="@string/celsius"
                             android:textColor="@color/white"
                              />
@@ -226,7 +225,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/primary"
-                            android:checked="true"
                             android:text="@string/kelvin"
                             android:textColor="@color/white" />
                         <RadioButton
@@ -295,6 +293,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
+                            android:checked="true"
                             android:buttonTint="@color/primary"
                             android:text="@string/meter_per_sec"
                             android:textColor="@color/white" />
@@ -304,7 +303,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/primary"
-                            android:checked="true"
                             android:text="@string/mile_per_sec"
                             android:textColor="@color/white" />
                     </RadioGroup>
@@ -374,7 +372,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:buttonTint="@color/primary"
-                        android:checked="true"
                         android:text="@string/disable"
                         android:textColor="@color/white" />
                 </RadioGroup>
