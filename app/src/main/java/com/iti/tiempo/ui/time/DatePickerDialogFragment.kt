@@ -39,7 +39,7 @@ class DatePickerDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLis
         val c = Calendar.getInstance()
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-        val hours = c.get(Calendar.HOUR)
+        val hours = c.get(Calendar.HOUR_OF_DAY)
         val min = c.get(Calendar.MINUTE)
 
 
@@ -102,7 +102,7 @@ class DatePickerDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLis
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         //return with data
         Log.d(TAG, "onDateSet: in")
-        val date = Calendar.getInstance()
+        val date = Calendar.getInstance().apply { time = Date(System.currentTimeMillis()) }
 
         val year = date.get(Calendar.YEAR)
         val month = date.get(Calendar.MONTH)

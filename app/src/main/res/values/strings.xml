@@ -57,6 +57,7 @@
     <string name="gps_is_disabled">Gps is disabled!</string>
     <string name="please_enable_gps">Please enable GPS!</string>
     <string name="fill_all_fields">Fill all fields</string>
+    <string name="channel_description">this channel to show weather status</string>
 
 
 </resources>

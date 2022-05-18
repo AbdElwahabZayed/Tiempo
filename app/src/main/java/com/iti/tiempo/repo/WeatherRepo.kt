@@ -8,7 +8,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+/*
+-> local
+-> no edit
+-> new , delete
+-> per
 
+*/
 interface WeatherRepo {
     suspend fun getWeather(
         currentLocation: LocationDetails,

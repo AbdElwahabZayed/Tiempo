@@ -77,6 +77,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
         when (appSharedPreference.getStringValue(TYPE_OF_LOCATION, GPS)) {
             GPS -> {
+                currentLocation =
+                    moshiHelper.getObjFromJsonString(LocationDetails::class.java,
+                        appSharedPreference.getStringValue(
+                            CURRENT_LOCATION, ""))
                 permissionHandler.checkForMultiplePermissions(
                     arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -192,6 +196,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
                             val mAddress =
                                 addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                            if (currentLocation != null && currentLocation?.latLng != null)
+                                mViewModel.deleteWeather(currentLocation!!)
                             currentLocation = LocationDetails(LatLng(
                                 locationResult.lastLocation.latitude,
                                 locationResult.lastLocation.longitude

@@ -13,4 +13,6 @@ interface AlarmRepo {
     suspend fun deleteAlarm(alarm: Alarm)
 
     suspend fun deleteAlarm(id: String)
+
+    suspend fun getAlarm(id: String):Alarm?
 }

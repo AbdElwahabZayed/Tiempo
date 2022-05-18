@@ -1,8 +1,5 @@
 package com.iti.tiempo.utils
 
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.app.AppLocalesMetadataHolderService
-import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
 import java.util.*
 

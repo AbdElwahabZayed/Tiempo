@@ -1,7 +1,9 @@
 package com.iti.tiempo.ui.alarm
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -15,22 +17,28 @@ import com.iti.tiempo.databinding.FragmentAlarmsBinding
 import com.iti.tiempo.local.AppSharedPreference
 import com.iti.tiempo.model.Alarm
 import com.iti.tiempo.ui.alarm.viewmodel.AlarmViewModel
-import com.iti.tiempo.utils.*
+import com.iti.tiempo.utils.ALARM
+import com.iti.tiempo.utils.DELETE_ALARM
+import com.iti.tiempo.utils.TIME
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 @SuppressLint("NotifyDataSetChanged")
 @AndroidEntryPoint
 class AlarmsFragment : BaseFragment<FragmentAlarmsBinding>(FragmentAlarmsBinding::inflate) {
+
     private val mNavController by lazy {
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
     }
 
     @Inject
     lateinit var appSharedPreference: AppSharedPreference
+
     private val mViewModel: AlarmViewModel by viewModels()
     private val list: MutableList<Alarm> = mutableListOf()
     private var mAdapter: AlarmsAdapter? = null
+
     override fun afterOnCreateView() {
         mViewModel.alarms.removeObservers(viewLifecycleOwner)
         mViewModel.alarms.observe(viewLifecycleOwner) {
@@ -71,6 +79,7 @@ class AlarmsFragment : BaseFragment<FragmentAlarmsBinding>(FragmentAlarmsBinding
                     mAdapter?.notifyDataSetChanged()
                 }
             }
+            navController.currentBackStackEntry?.savedStateHandle?.remove<Alarm>(ALARM)
         }
         mNavController.observe<Alarm>(DELETE_ALARM, viewLifecycleOwner) { alarm ->
             when (alarm) {
@@ -82,11 +91,22 @@ class AlarmsFragment : BaseFragment<FragmentAlarmsBinding>(FragmentAlarmsBinding
                     mAdapter?.notifyDataSetChanged()
                 }
             }
+            navController.currentBackStackEntry?.savedStateHandle?.remove<Alarm>(DELETE_ALARM)
+
         }
         binding.fabAddAlarm.setOnClickListener {
             mNavController.safeNavigation(R.id.mainFragment,
                 R.id.action_mainFragment_to_addAlarmDialogFragment)
         }
-
     }
+
+    override fun onStart() {
+        super.onStart()
+        if (!Settings.canDrawOverlays(context)) {
+            val myIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+            startActivity(myIntent)
+            //TODO toast
+        }
+    }
+
 }

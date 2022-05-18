@@ -101,7 +101,7 @@ fun getDateTime(pattern: String, time: Long, appSharedPreference: AppSharedPrefe
     val sdf = SimpleDateFormat(pattern, Locale(appSharedPreference.getStringValue(LOCALE, "en")))
     sdf.timeZone = TimeZone.getTimeZone("GMT+2")
     sdf.timeZone = TimeZone.getDefault()
-    return sdf.format(Date(time * 1000L))
+    return sdf.format(Date(time))
 }
 
 @SuppressLint("SimpleDateFormat")

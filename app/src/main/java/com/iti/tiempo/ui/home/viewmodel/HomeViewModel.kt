@@ -33,4 +33,10 @@ class HomeViewModel @Inject constructor(private val weatherRepo: WeatherRepo) : 
             }.launchIn(viewModelScope)
         }
     }
+
+    fun deleteWeather(currentLocation: LocationDetails){
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            weatherRepo.deleteWeather(currentLocation.latLng.latitude,currentLocation.latLng.longitude)
+        }
+    }
 }

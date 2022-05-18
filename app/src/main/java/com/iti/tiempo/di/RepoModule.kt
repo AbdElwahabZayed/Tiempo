@@ -1,5 +1,7 @@
 package com.iti.tiempo.di
 
+import android.content.Context
+import androidx.work.WorkManager
 import com.iti.tiempo.local.AlarmDao
 import com.iti.tiempo.local.WeatherDao
 import com.iti.tiempo.network.WeatherService
@@ -11,20 +13,23 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object RepoModule {
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun providesWeatherRepo(weatherService: WeatherService, weatherDao: WeatherDao): WeatherRepo {
         return WeatherRepoImpl(weatherService, weatherDao)
     }
 
     @Provides
-    @ViewModelScoped
-    fun providesAlarmRepo(alarmDao: AlarmDao): AlarmRepo {
-        return AlarmRepoImpl(alarmDao)
+    @Singleton
+    fun providesAlarmRepo(alarmDao: AlarmDao, @ApplicationContext context: Context): AlarmRepo {
+        return AlarmRepoImpl(alarmDao, WorkManager.getInstance(context))
     }
 }

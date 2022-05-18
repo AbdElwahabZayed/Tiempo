@@ -1,6 +1,7 @@
 package com.iti.tiempo.ui.alarm
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.iti.tiempo.R
 import com.iti.tiempo.base.ui.BaseDialogFragment
@@ -15,6 +16,8 @@ import com.iti.tiempo.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
+
+private const val TAG = "AddAlarmDialogFragment"
 
 @AndroidEntryPoint
 class AddAlarmDialogFragment :
@@ -93,12 +96,23 @@ class AddAlarmDialogFragment :
                         Toast.LENGTH_LONG).show()
                 }
                 else -> {
+
+                    val type = when (binding.rg.checkedRadioButtonId) {
+                        binding.rbAlarm.id -> ALARMS
+                        else -> NOTIFICATION
+                    }
+                    val alarm = Alarm(UUID.randomUUID().toString(),
+                        startDate?.timeInMillis ?: 0L,
+                        endDate?.timeInMillis ?: 0L,
+                        time?.timeInMillis ?: 0L,
+                        type)
+                    Log.e(TAG,
+                        "setOnClickListeners: $type ->    ${binding.rg.checkedRadioButtonId}")
+                    Log.e(TAG,
+                        "setOnClickListeners: ${binding.rbAlarm.isChecked} ->    ${binding.rbNotification.isChecked}")
                     navController.previousBackStackEntry?.savedStateHandle?.set(ALARM,
-                        Alarm(UUID.randomUUID().toString(),
-                            startDate?.timeInMillis ?: 0L,
-                            endDate?.timeInMillis ?: 0L,
-                            time?.timeInMillis ?: 0L,
-                            if (binding.rbNotification.isChecked) NOTIFICATION else ALARMS))
+                        alarm)
+                    Log.e(TAG, "setOnClickListeners: $alarm")
                     navController.navigateUp()
                 }
             }

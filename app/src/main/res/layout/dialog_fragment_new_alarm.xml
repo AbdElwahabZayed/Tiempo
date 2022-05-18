@@ -127,6 +127,7 @@
         </LinearLayout>
 
         <RadioGroup
+            android:id="@+id/rg"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -139,6 +140,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:buttonTint="@color/primary"
+                android:checked="true"
                 android:layout_marginEnd="8dp"
                 android:text="@string/alarm" />
 
@@ -148,7 +150,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:buttonTint="@color/primary"
-                android:checked="true"
                 android:text="@string/notification"/>
         </RadioGroup>
 
