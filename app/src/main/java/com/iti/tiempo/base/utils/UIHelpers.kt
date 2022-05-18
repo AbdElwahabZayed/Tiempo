@@ -8,6 +8,7 @@ import com.iti.tiempo.model.Temp
 import com.iti.tiempo.utils.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 @SuppressLint("SetTextI18n")
 fun TextView.setTextWithCurrentTempType(appSharedPreference: AppSharedPreference) {
@@ -69,7 +70,7 @@ fun TextView.setVisibilityWithUnit(visibility: Int) {
 fun TextView.setWindWithUnit(appSharedPreference: AppSharedPreference, speed: Double) {
     this.text = when (appSharedPreference.getStringValue(WIND_SPEED_TYPE, METER_SEC)) {
         METER_SEC -> "$speed ${context.resources.getString(R.string.meter_per_sec_sign)}"
-        else -> "$speed ${context.resources.getString(R.string.mile_per_sec_sign)}"
+        else -> "${(speed * 2.2 * 100.0).roundToInt() / 100.0} ${context.resources.getString(R.string.mile_per_sec_sign)}"
     }
 }
 
@@ -93,15 +94,25 @@ fun Double.tokel(): Double {
 }
 
 @SuppressLint("SimpleDateFormat")
-fun TextView.setTimeForHourFromTimeStamp(time: Long, appSharedPreference: AppSharedPreference,pattern: String="hh aa") {
-    text = getDateTime(pattern, time, appSharedPreference)
+fun TextView.setTimeForHourFromTimeStamp(
+    time: Long,
+    appSharedPreference: AppSharedPreference,
+    factor: Long = 1000L,
+    pattern: String = "hh aa",
+) {
+    text = getDateTime(pattern, time, appSharedPreference, factor)
 }
 
-fun getDateTime(pattern: String, time: Long, appSharedPreference: AppSharedPreference): String {
+fun getDateTime(
+    pattern: String,
+    time: Long,
+    appSharedPreference: AppSharedPreference,
+    factor: Long,
+): String {
     val sdf = SimpleDateFormat(pattern, Locale(appSharedPreference.getStringValue(LOCALE, "en")))
     sdf.timeZone = TimeZone.getTimeZone("GMT+2")
     sdf.timeZone = TimeZone.getDefault()
-    return sdf.format(Date(time))
+    return sdf.format(Date(time * factor))
 }
 
 @SuppressLint("SimpleDateFormat")
@@ -109,12 +120,16 @@ fun getDateTime(pattern: String, time: Long): String {
     val sdf = SimpleDateFormat(pattern)
     sdf.timeZone = TimeZone.getTimeZone("GMT+2")
     sdf.timeZone = TimeZone.getDefault()
-    return sdf.format(Date(time ))
+    return sdf.format(Date(time))
 }
 
 @SuppressLint("SimpleDateFormat")
-fun TextView.setTextToDayFromTimeStamp(time: Long, appSharedPreference: AppSharedPreference) {
-    text = getDateTime("EEE", time, appSharedPreference)
+fun TextView.setTextToDayFromTimeStamp(
+    time: Long,
+    appSharedPreference: AppSharedPreference,
+    factor: Long = 1000L,
+) {
+    text = getDateTime("EEE", time, appSharedPreference, factor)
 }
 
 fun TextView.setDateFromTimeStamp(time: Long) {

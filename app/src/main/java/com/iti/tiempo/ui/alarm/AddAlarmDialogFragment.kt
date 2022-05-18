@@ -49,7 +49,7 @@ class AddAlarmDialogFragment :
             date?.let {
                 time = date
                 binding.textViewTime.setTimeForHourFromTimeStamp(date.timeInMillis,
-                    appSharedPreference,
+                    appSharedPreference, 1,
                     "hh:mm aa")
                 navController.currentBackStackEntry?.savedStateHandle?.remove<Calendar>(TIME)
             }

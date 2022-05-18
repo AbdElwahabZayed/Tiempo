@@ -10,19 +10,21 @@ import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.android.scopes.FragmentScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(SingletonComponent::class)
 object MoshiModule  {
 
     @Provides
-    @ActivityScoped
+    @Singleton
     fun getMoshHelper(moshi: Moshi):MoshiHelper{
         return MoshiHelper(moshi)
     }
 
     @Provides
-    @ActivityScoped
+    @Singleton
     fun getMoshiObject():Moshi{
         return Moshi.Builder().add(KotlinJsonAdapterFactory()).build();
     }

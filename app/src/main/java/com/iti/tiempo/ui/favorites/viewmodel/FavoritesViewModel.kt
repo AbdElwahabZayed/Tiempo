@@ -29,6 +29,10 @@ class FavoritesViewModel @Inject constructor(val weatherRepo: WeatherRepo) : Vie
         Log.e(TAG, ": exception ", ex)
         _exceptions.postValue(ex)
     }
+    private val _currentWeather: MutableLiveData<WeatherResponse> = MutableLiveData()
+    val currentWeather: LiveData<WeatherResponse> = _currentWeather
+
+
 
     fun getFavoritesWeather(currentLocation: LocationDetails) {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {

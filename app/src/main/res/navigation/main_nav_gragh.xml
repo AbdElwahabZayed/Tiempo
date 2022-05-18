@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_mainFragment_to_deleteFragmentDialog"
             app:destination="@id/deleteFragmentDialog" />
+        <action
+            android:id="@+id/action_mainFragment_to_favoriteDetailsFragment"
+            app:destination="@id/favoriteDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/placePickerFragment"
@@ -70,4 +73,8 @@
         android:id="@+id/deleteFragmentDialog"
         android:name="com.iti.tiempo.ui.favorites.DeleteFragmentDialog"
         android:label="DeleteFragmentDialog" />
+    <fragment
+        android:id="@+id/favoriteDetailsFragment"
+        android:name="com.iti.tiempo.ui.favorites.FavoriteDetailsFragment"
+        android:label="FavoriteDetailsFragment" />
 </navigation>

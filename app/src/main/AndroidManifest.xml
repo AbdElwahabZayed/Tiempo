@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.iti.tiempo">
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,7 +18,11 @@
         android:theme="@style/Theme.Tiempo"
         android:usesCleartextTraffic="true">
 
-
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove">
+        </provider>
         <activity
             android:name=".MainActivity"
             android:configChanges="locale"
@@ -31,6 +35,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".worker.ForegroundService"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC5Zc_-JtHnDRNU7k6JGYW9Km14mH8iowo" />

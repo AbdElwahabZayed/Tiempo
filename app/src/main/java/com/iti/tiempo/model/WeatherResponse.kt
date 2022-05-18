@@ -1,10 +1,12 @@
 package com.iti.tiempo.model
 
+import android.content.Context
 import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.Ignore
 import com.google.android.gms.maps.model.LatLng
+import com.iti.tiempo.R
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
@@ -164,8 +166,8 @@ data class DailyItem(
     @Json(name = "rain")
     val rain: Double?,
 
-    @Json(name = "sunrise")
-    val sunrise: Int,
+    @Json(name = " rise")
+    val sunrise: Int?,
 
     @Json(name = "temp")
     val temp: Temp,
@@ -177,7 +179,7 @@ data class DailyItem(
     val uvi: Double,
 
     @Json(name = "moonrise")
-    val moonrise: Int,
+    val moonrise: Int?,
 
     @Json(name = "pressure")
     val pressure: Int,
@@ -204,7 +206,7 @@ data class DailyItem(
     val dewPoint: Double,
 
     @Json(name = "sunset")
-    val sunset: Int,
+    val sunset: Int?,
 
     @Json(name = "weather")
     val weather: List<WeatherItem>,
@@ -220,7 +222,7 @@ data class DailyItem(
 data class Current(
 
     @Json(name = "sunrise")
-    val sunrise: Int,
+    val sunrise: Int?,
 
     @Json(name = "temp")
     val temp: Double,
@@ -253,7 +255,7 @@ data class Current(
     val dewPoint: Double,
 
     @Json(name = "sunset")
-    val sunset: Int,
+    val sunset: Int?,
 
     @Json(name = "weather")
     val weather: List<WeatherItem>,
@@ -290,6 +292,7 @@ data class MinutelyItem(
     @Json(name = "precipitation")
     val precipitation: Int,
 )
+
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class LocationDetails(
@@ -297,3 +300,16 @@ data class LocationDetails(
     var address: String = "",
     var lastDate: String = "",
 ) : Parcelable
+
+
+fun WeatherResponse.hasAlerts(): Boolean {
+    return alerts?.isNullOrEmpty() == false
+}
+
+fun WeatherResponse.getAlertDescription(context: Context): String {
+    return alerts?.get(0)?.description ?: context.resources.getString(R.string.weather_is_fine)
+}
+
+fun WeatherResponse.toLocationDetails(): LocationDetails {
+    return LocationDetails(LatLng(lat, lon), address ?: "", lastDate ?: "")
+}

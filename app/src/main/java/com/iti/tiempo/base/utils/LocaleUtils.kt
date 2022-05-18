@@ -5,8 +5,12 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.LocaleList
 import androidx.core.os.ConfigurationCompat
+import com.iti.tiempo.local.AppSharedPreference
+import com.iti.tiempo.utils.ENGLISH
+import com.iti.tiempo.utils.LOCALE
 import java.util.*
 
+@Suppress("DEPRECATION")
 class LocaleUtil  {
     companion object {
         val supportedLocales = listOf("en", "ar")
@@ -86,4 +90,16 @@ class LocaleUtil  {
             return resources
         }
     }
+}
+fun Context.getLocaleStringResource(
+    appSharedPreference: AppSharedPreference,
+    resourceId: Int,
+): String {
+    val result: String
+    val config =
+        Configuration(resources.configuration)
+    config.setLocale(Locale(appSharedPreference.getStringValue(LOCALE, ENGLISH)))
+    result = createConfigurationContext(config).getText(resourceId).toString()
+
+    return result
 }

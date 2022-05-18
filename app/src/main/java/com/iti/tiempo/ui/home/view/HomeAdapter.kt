@@ -28,7 +28,7 @@ interface OnClickActionListener {
 class HomeAdapter(
     private var adapterData: MutableList<Any>,
     val appSharedPreference: AppSharedPreference,
-    val onClickActionListener: OnClickActionListener,
+    val onClickActionListener: OnClickActionListener?,
 ) :
     RecyclerView.Adapter<BaseAdapterViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseAdapterViewHolder {
@@ -81,11 +81,11 @@ class HomeAdapter(
             is DaysViewHolder -> holder.onBind(data as List<DailyItem>)
             is NoPermissionViewHolder ->
                 holder.item.btnAllow.setOnClickListener {
-                    onClickActionListener.onClickAllow()
+                    onClickActionListener?.onClickAllow()
                 }
 
             is GpsIsDisabledViewHolder -> holder.item.btnEnable.setOnClickListener{
-                onClickActionListener.onClickEnable()
+                onClickActionListener?.onClickEnable()
             }
         }
     }

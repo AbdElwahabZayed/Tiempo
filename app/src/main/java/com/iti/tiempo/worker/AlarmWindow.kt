@@ -6,9 +6,11 @@ import android.media.MediaPlayer
 import android.util.Log
 import android.view.*
 import com.iti.tiempo.R
+import com.iti.tiempo.databinding.DialogAlarmBinding
 
-class AlarmWindow(val context: Context, val msg: String) {
+class AlarmWindow(val context: Context, msg: String) {
 
+    private val binding: DialogAlarmBinding
     private val mView: View
     private val mParams: WindowManager.LayoutParams
     private var mWindowManager: WindowManager? = null
@@ -32,15 +34,22 @@ class AlarmWindow(val context: Context, val msg: String) {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         // inflating the view with the custom layout we created
         // inflating the view with the custom layout we created
-        mView = layoutInflater.inflate(R.layout.dialog_alarm, null)
+//        mView = layoutInflater.inflate(R.layout.dialog_alarm, null)
+        binding = DialogAlarmBinding.inflate(LayoutInflater.from(context),null,false)
+        mView = binding.root
+
         // Define the position of the
         // window within the screen
         // Define the position of the
         // window within the screen
-        mParams.gravity = Gravity.CENTER
+        mParams.gravity = Gravity.TOP
         mWindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         mediaPlayer = MediaPlayer.create(context, R.raw.thunder)
         mediaPlayer?.start()
+        binding.txtAlarmText.text = msg
+        binding.btnOk.setOnClickListener {
+            close()
+        }
     }
 
     fun open() {
@@ -57,7 +66,10 @@ class AlarmWindow(val context: Context, val msg: String) {
         }
     }
 
-    fun close() {
+    private fun close() {
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        mediaPlayer = null
         try {
             // remove the view from the window
             (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).removeView(mView)

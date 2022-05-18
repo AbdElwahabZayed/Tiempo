@@ -14,6 +14,8 @@ import com.iti.tiempo.base.utils.safeNavigation
 import com.iti.tiempo.databinding.FragmentFavoriteBinding
 import com.iti.tiempo.local.AppSharedPreference
 import com.iti.tiempo.model.LocationDetails
+import com.iti.tiempo.model.WeatherResponse
+import com.iti.tiempo.model.toLocationDetails
 import com.iti.tiempo.ui.favorites.viewmodel.FavoritesViewModel
 import com.iti.tiempo.ui.home.viewmodel.HomeViewModel
 import com.iti.tiempo.ui.placepicker.PlacePickerFragment.Companion.LOCATION_KEY
@@ -25,7 +27,8 @@ import javax.inject.Inject
 private const val TAG = "FavoritesFragment"
 
 @AndroidEntryPoint
-class FavoritesFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteBinding::inflate) {
+class FavoritesFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteBinding::inflate),
+    OnClickFavoriteListener {
     private val mNavController by lazy {
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
     }
@@ -58,14 +61,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavorite
                     binding.rvFavorites.apply {
                         setHasFixedSize(true)
                         layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-                        adapter = FavoritesAdapter(it) { w ->
-                            mNavController.safeNavigation(R.id.mainFragment,
-                                R.id.action_mainFragment_to_deleteFragmentDialog,
-                                Bundle().apply {
-                                    putParcelable(DELETE, LatLng(w.lat, w.lon))
-                                })
-
-                        }
+                        adapter = FavoritesAdapter(it, this@FavoritesFragment)
                     }
                 }
             }
@@ -99,7 +95,6 @@ class FavoritesFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavorite
         }
 
 
-
         //TODO what is this ?
 //        mNavController.currentBackStackEntry?.savedStateHandle?.getLiveData<LatLng>(
 //            DELETE)?.removeObservers(viewLifecycleOwner)
@@ -107,5 +102,21 @@ class FavoritesFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavorite
 //            DELETE)?.observe(viewLifecycleOwner) {
 //            mViewModel.deleteWeather(it)
 //        }
+    }
+
+    override fun onClickDelete(w: WeatherResponse) {
+        mNavController.safeNavigation(R.id.mainFragment,
+            R.id.action_mainFragment_to_deleteFragmentDialog,
+            Bundle().apply {
+                putParcelable(DELETE, LatLng(w.lat, w.lon))
+            })
+    }
+
+    override fun onClickShow(weatherResponse: WeatherResponse) {
+        mNavController.safeNavigation(R.id.mainFragment,
+            R.id.action_mainFragment_to_favoriteDetailsFragment,
+            Bundle().apply {
+                putParcelable(LOCATION, weatherResponse.toLocationDetails())
+            })
     }
 }

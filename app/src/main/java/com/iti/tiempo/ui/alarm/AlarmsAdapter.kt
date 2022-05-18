@@ -22,7 +22,7 @@ class AlarmsAdapter(val list:List<Alarm>,val appSharedPreference: AppSharedPrefe
         }
         holder.item.textViewStartDate.setDateFromTimeStamp(alarm.fromDate)
         holder.item.textViewEndDate.setDateFromTimeStamp(alarm.toDate)
-        holder.item.textViewTime.setTimeForHourFromTimeStamp(alarm.time,appSharedPreference)
+        holder.item.textViewTime.setTimeForHourFromTimeStamp(alarm.time,appSharedPreference,1)
     }
 
     override fun getItemCount() = list.size

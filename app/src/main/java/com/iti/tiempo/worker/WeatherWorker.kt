@@ -6,14 +6,21 @@ import android.widget.Toast
 import androidx.hilt.work.HiltWorker
 import androidx.work.*
 import com.iti.tiempo.R
-import com.iti.tiempo.di.LocalModule
+import com.iti.tiempo.base.utils.getLocaleStringResource
 import com.iti.tiempo.local.AppSharedPreference
 import com.iti.tiempo.model.Alarm
-import com.iti.tiempo.repo.AlarmRepoImpl
-import com.iti.tiempo.utils.ALARM
-import com.iti.tiempo.utils.IS_NOTIFICATION_ENABLED
+import com.iti.tiempo.model.LocationDetails
+import com.iti.tiempo.model.getAlertDescription
+import com.iti.tiempo.model.hasAlerts
+import com.iti.tiempo.network.WeatherService
+import com.iti.tiempo.repo.AlarmRepo
+import com.iti.tiempo.utils.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -23,6 +30,10 @@ private const val TAG = "WeatherWorker"
 class WeatherWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted params: WorkerParameters,
+    val alarmRepo: AlarmRepo,
+    val appSharedPreference: AppSharedPreference,
+    val weatherService: WeatherService,
+    val moshiHelper: MoshiHelper,
 ) :
     CoroutineWorker(
         context, params) {
@@ -30,53 +41,78 @@ class WeatherWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         val id = inputData.getString(ALARM)
-        val sharedPreference = context.getSharedPreferences(
-            context.getString(R.string.app_name) + "1",
-            Context.MODE_PRIVATE
-        )
-        val appSharedPreference = AppSharedPreference(sharedPreference, sharedPreference.edit())
+        val currentLocation = moshiHelper.getObjFromJsonString(LocationDetails::class.java,
+            appSharedPreference.getStringValue(
+                CURRENT_LOCATION, ""))
         val isNotificationEnabled =
             appSharedPreference.getBooleanValue(IS_NOTIFICATION_ENABLED, true)
-        val db = LocalModule.provideDatabase(context)
-        val alarmRepo: AlarmRepoImpl =
-            AlarmRepoImpl(LocalModule.alarmDao(db),
-                WorkManager.getInstance(context))
+        val alarm = alarmRepo.getAlarm(id ?: "")
 
+        if (isNotificationEnabled)
+            when (alarm) {//TODO
+                null -> {
+                    return Result.success()
+                }
+                else -> {
+                    if (currentLocation != null) {
+                        val weatherResponse =
+                            weatherService.getWeather(currentLocation.latLng.latitude.toString(),
+                                currentLocation.latLng.longitude.toString(),
+                                appSharedPreference.getStringValue(
+                                    LOCALE, ENGLISH))
+                        if (weatherResponse.isSuccessful && weatherResponse.body() != null) {
+                            if (weatherResponse.body()!!.hasAlerts()) {
+                                NotificationHandler.createWeatherNotification(context,
+                                    alarm,
+                                    weatherResponse.body()!!.getAlertDescription(context),
+                                    appSharedPreference)
+                            } else {
+                                NotificationHandler.createWeatherNotification(context,
+                                    alarm,
+                                    context.getLocaleStringResource(appSharedPreference,
+                                        R.string.weather_is_fine), appSharedPreference)
+                            }
+                        } else {
+                            withContext(Dispatchers.Main) {
+                                Log.e(TAG, "doWork: Error fetching weather")
+                                Toast.makeText(context,
+                                    context.getLocaleStringResource(appSharedPreference,
+                                        R.string.some_thing_went_wrong),
+                                    Toast.LENGTH_SHORT).show()
+                            }
+                        }
 
-        when (val alarm = alarmRepo.getAlarm(id ?: "")) {//TODO
-            null -> {
+                    }
+
+                }
             }
-            else -> {
-                fireNextAlarm(alarm)
-                NotificationHandler.createWeatherNotification(context, alarm, "No msgs for today!")
-            }
-        }
-        db.close()
+        fireNextAlarm(alarm!!)
+
+//        db.close()
         return Result.success()
     }
 
     private fun fireNextAlarm(alarm: Alarm) {
         val currentCalendar =
             Calendar.getInstance().apply { time = Date(System.currentTimeMillis()) }
-        val initialCalender = Calendar.getInstance().apply { timeInMillis = alarm.time }
-        val startCalendar = Calendar.getInstance().apply { time = Date(alarm.fromDate) }
-        currentCalendar.set(Calendar.YEAR, startCalendar[Calendar.YEAR])
-        currentCalendar.set(Calendar.MONTH, startCalendar[Calendar.MONTH])
-        currentCalendar.set(Calendar.DAY_OF_MONTH, startCalendar[Calendar.DAY_OF_MONTH])
-        currentCalendar.set(Calendar.MINUTE, initialCalender[Calendar.MINUTE])
-        currentCalendar.set(Calendar.HOUR_OF_DAY, initialCalender[Calendar.HOUR_OF_DAY])
+        currentCalendar.add(Calendar.DAY_OF_MONTH, 1)
+        currentCalendar.time.before(Date(alarm.toDate))
         val delay = currentCalendar.timeInMillis - Calendar.getInstance()
             .apply { time = Date(System.currentTimeMillis()) }.timeInMillis
-        if (delay > 0) {
+        if (delay > 0 && currentCalendar.time.before(Date(alarm.toDate))) {
             val request = OneTimeWorkRequestBuilder<WeatherWorker>()
                 .setInputData(Data.Builder().putString(ALARM, alarm.id).build())
                 .setInitialDelay(delay, TimeUnit.MILLISECONDS)
                 .build()
             WorkManager.getInstance(context)
                 .enqueueUniqueWork(alarm.id, ExistingWorkPolicy.REPLACE, request)
-        } else
-            Toast.makeText(context, context.getText(R.string.expired_date), Toast.LENGTH_SHORT)
-                .show()
+        } else {
+            CoroutineScope(Dispatchers.Main).launch {
+                Toast.makeText(context, context.getText(R.string.expired_date), Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
     }
 
 

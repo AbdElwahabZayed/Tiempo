@@ -13,37 +13,47 @@ import android.util.Log
 import android.view.Window
 import androidx.core.app.NotificationCompat
 import com.iti.tiempo.R
+import com.iti.tiempo.base.utils.getLocaleStringResource
+import com.iti.tiempo.local.AppSharedPreference
 import com.iti.tiempo.model.Alarm
+import com.iti.tiempo.utils.ALARM
 import com.iti.tiempo.utils.ALARMS
 import com.iti.tiempo.utils.NOTIFICATION
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 @SuppressLint("LaunchActivityFromNotification", "UnspecifiedImmutableFlag")
 
 object NotificationHandler {
-    private val window: Window? = null
     private const val CHANNEL_ID = "transactions_reminder_channel"
     private const val CHANNEL_ID_VALUE = 500
     private const val TAG = "NotificationHandler"
-    fun createWeatherNotification(context: Context, alarm: Alarm, msg: String) {
-        Log.e(TAG, "createWeatherNotification: ALarm = $alarm" )
-        Log.e(TAG, "createWeatherNotification: ALarm type= ${alarm.type}" )
+    fun createWeatherNotification(
+        context: Context,
+        alarm: Alarm,
+        msg: String,
+        appSharedPreference: AppSharedPreference,
+    ) {
+        Log.e(TAG, "createWeatherNotification: ALarm = $alarm")
+        Log.e(TAG, "createWeatherNotification: ALarm type= ${alarm.type}")
         when (alarm.type) {
             NOTIFICATION -> {
                 val manager =
                     (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?)!!
-                createNotificationChannel(context)
+                createNotificationChannel(context, appSharedPreference)
                 val notificationBuilder: NotificationCompat.Builder =
                     NotificationCompat.Builder(context, CHANNEL_ID)
                 val notification = notificationBuilder.setOngoing(true)
-                    .setContentTitle(context.resources.getString(R.string.weather_alarm))
+                    .setContentTitle(context.getLocaleStringResource(appSharedPreference,
+                        R.string.weather_alarm))
                     .setContentText(msg)
                     // this is important, otherwise the notification will show the way
                     // you want i.e. it will show some default notification
                     .setSmallIcon(R.drawable.ic_launcher_foreground)
                     .setPriority(NotificationManager.IMPORTANCE_HIGH)
                     .setCategory(Notification.CATEGORY_ALARM)
+                    .setOngoing(false)
                     .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.packageName + "/" + R.raw.thunder))
                     .build()
                 manager.notify(CHANNEL_ID_VALUE, notification)
@@ -51,7 +61,7 @@ object NotificationHandler {
             ALARMS -> {
                 CoroutineScope(Dispatchers.Main).launch {
                     val intent = Intent(context, ForegroundService::class.java)
-
+                    intent.putExtra(ALARM, msg)
                     // start the service based on the android version
                     //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     // start the service based on the android version
@@ -60,11 +70,12 @@ object NotificationHandler {
                         0,
                         intent,
                         PendingIntent.FLAG_CANCEL_CURRENT)
-                    createNotificationChannel(context)
+                    createNotificationChannel(context, appSharedPreference)
                     val builder: NotificationCompat.Builder = NotificationCompat.Builder(context,
                         CHANNEL_ID)
                         .setSmallIcon(R.mipmap.ic_launcher_round)
-                        .setContentTitle(context.resources.getText(R.string.weather_alarm))
+                        .setContentTitle(context.getLocaleStringResource(appSharedPreference,
+                            R.string.weather_alarm))
                         .setContentText(msg)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setContentIntent(pendingIntent) // For launching the MainActivity
@@ -79,9 +90,13 @@ object NotificationHandler {
         }
     }
 
-    private fun createNotificationChannel(context: Context) {
-        val name = context.resources.getString(R.string.weather_alarm)
-        val descriptionText = context.resources.getString(R.string.channel_description)
+    private fun createNotificationChannel(
+        context: Context,
+        appSharedPreference: AppSharedPreference,
+    ) {
+        val name = context.getLocaleStringResource(appSharedPreference, R.string.weather_alarm)
+        val descriptionText =
+            context.getLocaleStringResource(appSharedPreference, R.string.channel_description)
         val importance = NotificationManager.IMPORTANCE_HIGH
         val channel =
             NotificationChannel(CHANNEL_ID,

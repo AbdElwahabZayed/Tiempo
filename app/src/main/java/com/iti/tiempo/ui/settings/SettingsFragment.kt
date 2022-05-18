@@ -36,25 +36,25 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
             appSharedPreference.setValue(TYPE_OF_LOCATION, MAP)
         }
         binding.rbMeter.setOnClickListener {
-
+            appSharedPreference.setValue(WIND_SPEED_TYPE, METER_SEC)
         }
         binding.rbMile.setOnClickListener {
-
+            appSharedPreference.setValue(WIND_SPEED_TYPE, MILE_HOUR)
         }
         binding.rbFahrenheit.setOnClickListener {
-
+            appSharedPreference.setValue(CURRENT_TEMP_TYPE, Fahrenheit)
         }
         binding.rbCelsius.setOnClickListener {
-
+            appSharedPreference.setValue(CURRENT_TEMP_TYPE, Celsius)
         }
         binding.rbKelvin.setOnClickListener {
-
+            appSharedPreference.setValue(CURRENT_TEMP_TYPE, Kelvin)
         }
         binding.rbEnable.setOnClickListener {
-
+            appSharedPreference.setValue(IS_NOTIFICATION_ENABLED, true)
         }
         binding.rbDisable.setOnClickListener {
-
+            appSharedPreference.setValue(IS_NOTIFICATION_ENABLED, false)
         }
     }
 
@@ -75,7 +75,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         }
         when (windSpeedType) {
             METER_SEC -> binding.rbMeter.isChecked = true
-            MILE_SEC -> binding.rbMile.isChecked = true
+            MILE_HOUR -> binding.rbMile.isChecked = true
         }
         when (tempType) {
             Fahrenheit -> binding.rbFahrenheit.isChecked = true

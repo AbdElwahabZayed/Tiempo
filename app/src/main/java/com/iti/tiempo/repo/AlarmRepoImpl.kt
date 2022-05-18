@@ -31,6 +31,7 @@ class AlarmRepoImpl @Inject constructor(val alarmDao: AlarmDao, val workManager:
         currentCalendar.set(Calendar.MINUTE,hourAndMinuteCalender[Calendar.MINUTE])
         currentCalendar.set(Calendar.HOUR_OF_DAY,hourAndMinuteCalender[Calendar.HOUR_OF_DAY])
         val delay = currentCalendar.timeInMillis - Calendar.getInstance().apply { time = Date(System.currentTimeMillis()) }.timeInMillis
+
         val request = OneTimeWorkRequestBuilder<WeatherWorker>()
             .setInitialDelay(delay, TimeUnit.MILLISECONDS)
             .setInputData(Data.Builder().apply {

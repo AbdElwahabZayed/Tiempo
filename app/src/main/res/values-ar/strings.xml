@@ -58,6 +58,8 @@
     <string name="gps_is_disabled">خاصة الموقع مغلقة!</string>
     <string name="please_enable_gps">الرجاء تفعيل الموقع!</string>
     <string name="fill_all_fields">املاء كل الحقول!</string>
+    <string name="some_thing_went_wrong">حدث خطأ!</string>
+    <string name="weather_is_fine">الطقس جيد ولا وجود لأي تحذيرات.</string>
 
 
 </resources>
