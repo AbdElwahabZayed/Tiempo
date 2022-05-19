@@ -1,19 +1,32 @@
 package com.iti.tiempo.ui.settings
 
+import androidx.navigation.Navigation
+import com.iti.tiempo.R
 import com.iti.tiempo.base.ui.BaseFragment
+import com.iti.tiempo.base.utils.getDateHomeStyleString
+import com.iti.tiempo.base.utils.safeNavigation
 import com.iti.tiempo.databinding.FragmentSettingsBinding
 import com.iti.tiempo.local.AppSharedPreference
+import com.iti.tiempo.model.LocationDetails
+import com.iti.tiempo.ui.placepicker.PlacePickerFragment
 import com.iti.tiempo.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsBinding::inflate) {
+
+
+    private val mNavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+    }
+
     @Inject
     lateinit var appSharedPreference: AppSharedPreference
 
     @Inject
-    lateinit var moshi: MoshiHelper
+    lateinit var moshiHelper: MoshiHelper
     override fun afterOnCreateView() {
         super.afterOnCreateView()
         setupView()
@@ -34,6 +47,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         }
         binding.rbMap.setOnClickListener {
             appSharedPreference.setValue(TYPE_OF_LOCATION, MAP)
+            mNavController.safeNavigation(R.id.mainFragment,R.id.action_mainFragment_to_placePickerFragment)
         }
         binding.rbMeter.setOnClickListener {
             appSharedPreference.setValue(WIND_SPEED_TYPE, METER_SEC)
@@ -85,6 +99,20 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         when (isNotificationEnabled) {
             true -> binding.rbEnable.isChecked = true
             else -> binding.rbDisable.isChecked = false
+        }
+    }
+
+    override fun afterOnViewCreated() {
+        super.afterOnViewCreated()
+        mNavController.currentBackStackEntry?.savedStateHandle?.getLiveData<LocationDetails>(
+            PlacePickerFragment.LOCATION_KEY)?.removeObservers(viewLifecycleOwner)
+        mNavController.currentBackStackEntry?.savedStateHandle?.getLiveData<LocationDetails>(
+            PlacePickerFragment.LOCATION_KEY)?.observe(viewLifecycleOwner) {
+            appSharedPreference.setValue(
+                CURRENT_LOCATION,
+                moshiHelper.getJsonStringFromObject(LocationDetails::class.java,
+                    it)
+            )
         }
     }
 

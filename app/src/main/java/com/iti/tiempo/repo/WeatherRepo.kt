@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+
 /*
 -> local
 -> no edit
@@ -23,7 +24,7 @@ interface WeatherRepo {
 
     suspend fun getAllFavoritesWeather(currentLocation: LatLng): Flow<List<WeatherResponse>>
     suspend fun deleteWeather(weatherResponse: WeatherResponse)
-    suspend fun deleteWeather(lat:Double,lon :Double)
+    suspend fun deleteWeather(lat: Double, lon: Double)
     suspend fun insertWeather(
         currentLocation: LocationDetails,
         lang: String,
